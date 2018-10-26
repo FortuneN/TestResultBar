@@ -4,7 +4,7 @@ using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Lkytal.StatusInfo
+namespace TestResultBar
 {
 	public partial class InfoControl : UserControl
 	{

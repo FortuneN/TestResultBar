@@ -3,7 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-namespace Lkytal.StatusInfo
+namespace TestResultBar
 {
 	internal class StatusBarInjector
 	{

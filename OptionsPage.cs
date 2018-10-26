@@ -3,7 +3,7 @@ using System;
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 
-namespace Lkytal.StatusInfo
+namespace TestResultBar
 {
 	[ClassInterface(ClassInterfaceType.AutoDual)]
 	public class OptionsPage : DialogPage

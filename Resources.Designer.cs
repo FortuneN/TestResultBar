@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Lkytal.StatusInfo {
+namespace Lkytal.TestResultBar {
     using System;
     
     

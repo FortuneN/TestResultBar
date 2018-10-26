@@ -3,7 +3,7 @@
 using System;
 // ReSharper disable InconsistentNaming
 
-namespace Lkytal.StatusInfo
+namespace TestResultBar
 {
 	static class GuidList
 	{

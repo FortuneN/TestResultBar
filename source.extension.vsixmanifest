@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="72581eb6-4dcd-4b8f-9add-c4257d4fb9d7" Version="1.3.0" Language="en-US" Publisher="Lkytal" />
-        <DisplayName>StatusInfo</DisplayName>
-        <Description xml:space="preserve">Display CPU usage and the memory usage of the current instance of Visual Studio in the status bar.</Description>
-        <MoreInfo>https://github.com/lkytal/StatusInfo</MoreInfo>
+        <Identity Id="TestResultBar.7098e5b9-6523-412f-99ab-bc6f9c01e057" Version="0.1" Language="en-US" Publisher="Robert" />
+        <DisplayName>TestResultBar</DisplayName>
+        <Description xml:space="preserve">Displays test results in the status barDisplays test results in status</Description>
+        <MoreInfo>https://github.com/roggan87/TestResultBar</MoreInfo>
         <License>LICENSE.txt</License>
         <Icon>Resources\icon.png</Icon>
         <PreviewImage>Resources\info.png</PreviewImage>
-        <Tags>Status, Info, Infomation</Tags>
+        <Tags>Test, TDD, Statusbar, Tests</Tags>
     </Metadata>
     <Installation InstalledByMsi="false">
         <InstallationTarget Id="Microsoft.VisualStudio.Pro" Version="[12.0,16.0)" />

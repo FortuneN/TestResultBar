@@ -8,6 +8,7 @@ using Microsoft.VisualBasic.Devices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Process = System.Diagnostics.Process;
+using Microsoft.VisualStudio.TestWindow.Extensibility;
 
 namespace TestResultBar
 {
@@ -36,13 +37,9 @@ namespace TestResultBar
 
 	public sealed class StatusInfoPackage : Package
 	{
-		private Timer refreshTimer;
-		private Process ideProcess;
 		private InfoControl infoControl;
 		private StatusBarInjector injector;
-
-		private PerformanceCounter totalCpuCounter;
-		private PerformanceCounter totalRamCounter;
+        // private TestRunnerListener testRunnerListener;
 
 		private OptionsPage optionsPage;
 
@@ -56,7 +53,7 @@ namespace TestResultBar
 
 			base.Initialize();
 
-			var dte = (DTE)GetService(typeof(DTE));
+			DTE dte = (DTE)GetService(typeof(DTE));
 			DTEEvents eventsObj = dte.Events.DTEEvents;
 			eventsObj.OnStartupComplete += InitExt;
 			eventsObj.OnBeginShutdown += ShutDown;
@@ -66,68 +63,27 @@ namespace TestResultBar
 		{
 			Debug.WriteLine("Init function loaded");
 
-			refreshTimer = new Timer(1000);
-			refreshTimer.Elapsed += RefreshTimerElapsed;
-
-			ideProcess = Process.GetCurrentProcess();
-			ideProcess.InitCpuUsage();
-
-			totalCpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-			totalRamCounter = new PerformanceCounter("Memory", "Available Bytes");
-
-			infoControl = new InfoControl((long)(new ComputerInfo()).TotalPhysicalMemory);
+			infoControl = new InfoControl();
 
 			injector = new StatusBarInjector(Application.Current.MainWindow);
 			injector.InjectControl(infoControl);
+            // testRunnerListener = new TestRunnerListener(infoControl);
+            System.Windows.Forms.MessageBox.Show("InitExt klar");
+			Debug.WriteLine("InitExt klar");
 
-			optionsPage = GetDialogPage(typeof(OptionsPage)) as OptionsPage;
-			if (optionsPage != null) infoControl.Format = optionsPage.Format;
-
-			refreshTimer.Start();
-		}
+            //optionsPage = GetDialogPage(typeof(OptionsPage)) as OptionsPage;
+            //if (optionsPage != null) infoControl.Format = optionsPage.Format;
+        }
 
 		private void ShutDown()
 		{
-			refreshTimer.Stop();
-		}
-
-		public void OptionUpdated(string pName, object pValue)
-		{
-			Debug.WriteLine($"Get option: {pName}");
-
-			switch (pName)
-			{
-				case "Format":
-					infoControl.Format = (string)pValue;
-					break;
-				case "Interval":
-					refreshTimer.Interval = (int)pValue;
-					break;
-				case "UseFixedWidth":
-					infoControl.UseFixedWidth = (bool)pValue;
-					break;
-				case "FixedWidth":
-					infoControl.FixedWidth = (int)pValue;
-					break;
-				default:
-					Debug.WriteLine($"Error nonexsist option: {pName}");
-					break;
-			}
-		}
-
-		private void RefreshTimerElapsed(object sender, ElapsedEventArgs e)
-		{
-			UpdateInfoBar();
 		}
 
 		private void UpdateInfoBar()
 		{
 			infoControl.Dispatcher.BeginInvoke((Action)(() =>
 			{
-				infoControl.CpuUsage = (int)(ideProcess.GetCpuUsage() * 100);
-				infoControl.RamUsage = ideProcess.WorkingSet64;
-				infoControl.TotalCpuUsage = (int)totalCpuCounter.NextValue();
-				infoControl.FreeRam = totalRamCounter.NextSample().RawValue;
+                // DoSomething
 			}));
 		}
 	}

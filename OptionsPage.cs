@@ -71,7 +71,7 @@ namespace TestResultBar
 		private void OptionUpdated(string pName, object pValue)
 		{
 			var statusInfoPackage = (StatusInfoPackage)this.GetService(typeof(StatusInfoPackage));
-			statusInfoPackage?.OptionUpdated(pName, pValue);
+			//statusInfoPackage?.OptionUpdated(pName, pValue);
 		}
 	}
 }

@@ -70,8 +70,8 @@ namespace TestResultBar
 
 		private void OptionUpdated(string pName, object pValue)
 		{
-			var statusInfoPackage = (StatusInfoPackage)this.GetService(typeof(StatusInfoPackage));
-			//statusInfoPackage?.OptionUpdated(pName, pValue);
+			var testResultBarPackage = (TestResultBarPackage)this.GetService(typeof(TestResultBarPackage));
+			//testResultBarPackage?.OptionUpdated(pName, pValue);
 		}
 	}
 }

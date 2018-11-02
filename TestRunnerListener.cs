@@ -3,15 +3,26 @@ using System.Collections.Generic;
 using System.ComponentModel.Composition;
 using System.Diagnostics;
 using System.Linq;
+using System.Windows;
+using System.Windows.Forms;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
+using TestResultBar;
 
 [Export(typeof(ITestContainerDiscoverer))]
 [Export(typeof(TestRunnerListener))]
 internal class TestRunnerListener : ITestContainerDiscoverer
 {
+    [Import]
+    private ITestsService TestsService;
+
+    [Import(typeof(InfoControl))]
+    public InfoControl InfoControl { get; set; }
 
     [ImportingConstructor]
-    internal TestRunnerListener([Import(typeof(IOperationState))]IOperationState operationState)
+    internal TestRunnerListener(
+        [Import(typeof(IOperationState))]IOperationState operationState
+    )
     {
         operationState.StateChanged += OperationState_StateChanged;
     }
@@ -30,14 +41,14 @@ internal class TestRunnerListener : ITestContainerDiscoverer
 
     public event EventHandler TestContainersUpdated;
 
-    private void OperationState_StateChanged(object sender, OperationStateChangedEventArgs e)
+    private async void OperationState_StateChanged(object sender, OperationStateChangedEventArgs e)
     {
-        //System.Windows.Forms.MessageBox.Show(e.State.ToString());
         if (e.State == TestOperationStates.TestExecutionFinished)
         {
+            IDisposableQuery<ITest> tests = await TestsService.GetTestsAsync();
+            InfoControl.UpdateWithTestResult(tests);
+
             var s = e.Operation;
-			Debug.WriteLine("Testerna är färdiga!");
-            System.Windows.Forms.MessageBox.Show("results please!");
         }
     }
 }

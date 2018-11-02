@@ -8,7 +8,8 @@ using Microsoft.VisualBasic.Devices;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using Process = System.Diagnostics.Process;
-using Microsoft.VisualStudio.TestWindow.Extensibility;
+using Microsoft.VisualStudio.ComponentModelHost;
+using System.ComponentModel.Composition;
 
 namespace TestResultBar
 {
@@ -35,11 +36,11 @@ namespace TestResultBar
 	[ProvideAutoLoad(UIContextGuids80.EmptySolution)]
 	[ProvideOptionPage(typeof(OptionsPage), "TestResultBar Info", "General", 0, 0, true)]
 
-	public sealed class StatusInfoPackage : Package
+    [Export(typeof(TestResultBarPackage))]
+	public sealed class TestResultBarPackage : Package
 	{
-		private InfoControl infoControl;
+		public InfoControl InfoControl;
 		private StatusBarInjector injector;
-        // private TestRunnerListener testRunnerListener;
 
 		private OptionsPage optionsPage;
 
@@ -63,13 +64,10 @@ namespace TestResultBar
 		{
 			Debug.WriteLine("Init function loaded");
 
-			infoControl = new InfoControl();
-
-			injector = new StatusBarInjector(Application.Current.MainWindow);
-			injector.InjectControl(infoControl);
-            // testRunnerListener = new TestRunnerListener(infoControl);
-            System.Windows.Forms.MessageBox.Show("InitExt klar");
-			Debug.WriteLine("InitExt klar");
+            var componentModel = (IComponentModel)GetService(typeof(SComponentModel));
+            InfoControl = (InfoControl)componentModel.GetService<InfoControl>();
+            injector = new StatusBarInjector(Application.Current.MainWindow);
+            injector.InjectControl(InfoControl);
 
             //optionsPage = GetDialogPage(typeof(OptionsPage)) as OptionsPage;
             //if (optionsPage != null) infoControl.Format = optionsPage.Format;
@@ -81,10 +79,6 @@ namespace TestResultBar
 
 		private void UpdateInfoBar()
 		{
-			infoControl.Dispatcher.BeginInvoke((Action)(() =>
-			{
-                // DoSomething
-			}));
 		}
 	}
 }

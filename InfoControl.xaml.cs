@@ -5,6 +5,7 @@ using System.ComponentModel.Composition;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace TestResultBar
 {
@@ -14,8 +15,6 @@ namespace TestResultBar
 		public InfoControl()
 		{
             InitializeComponent();
-            PassedTestsCount.Text = "TestResultBar";
-
 		}
 
         public void SetPassedTests(string text)
@@ -53,9 +52,21 @@ namespace TestResultBar
             FailedTestsPopupContent.Children.Clear();
             foreach (ITest test in tests)
             {
-                TextBlock textblock = new TextBlock();
-                textblock.Text = test.DisplayName;
-                FailedTestsPopupContent.Children.Add(textblock);
+                StackPanel stackPanel = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center
+                };
+                stackPanel.Children.Add(new Image
+                {
+                    Source = new BitmapImage( new Uri("Resources/FailedTest.png", UriKind.Relative))
+                });
+                stackPanel.Children.Add(new TextBlock
+                {
+                    Text = test.DisplayName,
+                    Margin = new System.Windows.Thickness(4, 0, 0, 0)
+                });
+                FailedTestsPopupContent.Children.Add(stackPanel);
             }
             if (showPopup && tests.Count() > 0)
             {

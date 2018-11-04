@@ -31,6 +31,7 @@ namespace TestResultBar
                 ITest[] failedTests = tests.Where(t => t.State == TestState.Failed).ToArray();
                 SetTestCounts(passedTests.Count(), failedTests.Count());
                 SetBackgroundColor(failedTests.Count());
+                UpdatePopup(failedTests, true);
             });
 
         }
@@ -43,32 +44,25 @@ namespace TestResultBar
 
         private void SetBackgroundColor(int failedCount)
         {
-            if(failedCount == 0)
-            {
-                Background = new SolidColorBrush(Colors.Green);
-            }
-            else
-            {
-                Background = new SolidColorBrush(Colors.Red);
-            }
-
+            Color bgColor = failedCount == 0 ? Colors.Green : Colors.Red;
+            Background = new SolidColorBrush(bgColor);
         }
 
-		private Brush GetCpuColor(int cpu)
-		{
-			Color color;
-			if (cpu > 50)
-			{
-				Color yellow = Colors.Yellow;
-				color = yellow.FadeTo(Colors.Red, (cpu - 50) / 50f);
-			}
-			else
-			{
-				Color white = Colors.White;
-				color = white.FadeTo(Colors.Yellow, cpu / 50f);
-			}
-			return new SolidColorBrush(color);
-		}
+        public void UpdatePopup(ITest[] tests, bool showPopup)
+        {
+            FailedTestsPopupContent.Children.Clear();
+            foreach (ITest test in tests)
+            {
+                TextBlock textblock = new TextBlock();
+                textblock.Text = test.DisplayName;
+                FailedTestsPopupContent.Children.Add(textblock);
+            }
+            if (showPopup && tests.Count() > 0)
+            {
+                FailedTestsPopup.IsOpen = true;
+                FailedTestsPopup.StaysOpen = false;
+            }
+        }
 
 	}
 }

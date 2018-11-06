@@ -47,8 +47,6 @@ internal class TestRunnerListener : ITestContainerDiscoverer
         {
             IDisposableQuery<ITest> tests = await TestsService.GetTestsAsync();
             InfoControl.UpdateWithTestResult(tests);
-
-            var s = e.Operation;
         }
     }
 }

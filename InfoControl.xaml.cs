@@ -12,6 +12,8 @@ namespace TestResultBar
     [Export(typeof(InfoControl))]
 	public partial class InfoControl : UserControl
 	{
+        [Import]
+        private ITestsService TestsService;
 		public InfoControl()
 		{
             InitializeComponent();
@@ -75,5 +77,10 @@ namespace TestResultBar
             }
         }
 
-	}
+        private async void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            IEnumerable<ITest> tests = await TestsService.GetTestsAsync();
+            await TestsService.RunTestsAsync(tests.Select(t => t.Id));
+        }
+    }
 }

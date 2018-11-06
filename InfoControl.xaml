@@ -3,11 +3,11 @@
     <StackPanel Name="Root" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
         <StackPanel Name="PassedPanel" Orientation="Horizontal" VerticalAlignment="Center" Margin="3,0">
             <Image Source="Resources/PassedTest.png" />
-            <TextBlock Name="PassedTestsCount" Foreground="White" Margin="4, 0" VerticalAlignment="Center">2</TextBlock>
+            <TextBlock Name="PassedTestsCount" Foreground="White" Margin="4, 0" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
         <StackPanel Name="FailedPanel" Orientation="Horizontal" VerticalAlignment="Center" Margin="3,0">
             <Image Source="Resources/FailedTest.png" />
-            <TextBlock Name="FailedTestsCount" Foreground="White" Margin="4, 2" VerticalAlignment="Center">23</TextBlock>
+            <TextBlock Name="FailedTestsCount" Foreground="White" Margin="4, 2" VerticalAlignment="Center"></TextBlock>
         </StackPanel>
         <Popup
             Name="FailedTestsPopup"

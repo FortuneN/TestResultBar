@@ -1,3 +1,5 @@
+using EnvDTE;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -14,7 +16,11 @@ namespace TestResultBar
 	{
         [Import]
         private ITestsService TestsService;
-		public InfoControl()
+
+        [Import]
+        internal SVsServiceProvider ServiceProvider = null;
+
+        public InfoControl()
 		{
             InitializeComponent();
 		}
@@ -77,10 +83,11 @@ namespace TestResultBar
             }
         }
 
-        private async void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            IEnumerable<ITest> tests = await TestsService.GetTestsAsync();
-            await TestsService.RunTestsAsync(tests.Select(t => t.Id));
+
+            DTE dte = (DTE)ServiceProvider.GetService(typeof(DTE));
+            dte.ExecuteCommand("TestExplorer.RunAllTests");
         }
     }
 }

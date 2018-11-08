@@ -43,12 +43,16 @@ internal class TestRunnerListener : ITestContainerDiscoverer
 
     private async void OperationState_StateChanged(object sender, OperationStateChangedEventArgs e)
     {
-        if (e.State == TestOperationStates.TestExecutionFinished)
+        if (e.State == TestOperationStates.TestExecutionStarted)
+        {
+            InfoControl.ResetBackgroundColor();
+
+        }
+        else if (e.State == TestOperationStates.TestExecutionFinished)
         {
             IDisposableQuery<ITest> tests = await TestsService.GetTestsAsync();
             InfoControl.UpdateWithTestResult(tests);
-
-            var s = e.Operation;
         }
+
     }
 }

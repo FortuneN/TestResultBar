@@ -23,6 +23,7 @@ namespace TestResultBar
                 PassedTestsCount.Text = text;
             });
         }
+
         public void UpdateWithTestResult(IDisposableQuery<ITest> tests)
         {
             this.Dispatcher.BeginInvoke((Action)delegate {
@@ -33,6 +34,14 @@ namespace TestResultBar
                 UpdatePopup(failedTests, true);
             });
 
+        }
+
+        public void ResetBackgroundColor()
+        {
+            this.Dispatcher.BeginInvoke((Action)delegate
+            {
+                Background = new SolidColorBrush(Colors.Transparent);
+            });
         }
 
         private void SetTestCounts(int passedCount, int failedCount)
@@ -47,7 +56,7 @@ namespace TestResultBar
             Background = new SolidColorBrush(bgColor);
         }
 
-        public void UpdatePopup(ITest[] tests, bool showPopup)
+        private void UpdatePopup(ITest[] tests, bool showPopup)
         {
             FailedTestsPopupContent.Children.Clear();
             foreach (ITest test in tests)

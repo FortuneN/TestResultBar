@@ -85,7 +85,6 @@ namespace TestResultBar
 
         private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-
             DTE dte = (DTE)ServiceProvider.GetService(typeof(DTE));
             dte.ExecuteCommand("TestExplorer.RunAllTests");
         }

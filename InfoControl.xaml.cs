@@ -92,13 +92,20 @@ namespace TestResultBar
             }
         }
 
-        private void RunAllTests(object sender, System.Windows.RoutedEventArgs e)
+        public void RunAllTests(object sender, System.Windows.RoutedEventArgs e)
         {
-            DTE dte = (DTE)ServiceProvider.GetService(typeof(DTE));
-            dte.ExecuteCommand("TestExplorer.RunAllTests");
+            try
+            {
+                DTE dte = (DTE)ServiceProvider.GetService(typeof(DTE));
+                dte.ExecuteCommand("TestExplorer.RunAllTests");
+            }
+            catch(Exception ex)
+            {
+                // Write to Tests pane
+            }
         }
 
-        private void OpenTestExplorer(object sender, System.Windows.RoutedEventArgs e)
+        public void OpenTestExplorer(object sender, System.Windows.RoutedEventArgs e)
         {
             DTE dte = (DTE)ServiceProvider.GetService(typeof(DTE));
             Window window = dte.Windows.Item("{E1B7D1F8-9B3C-49B1-8F4F-BFC63A88835D}");

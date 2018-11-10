@@ -1,29 +1,31 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <UserControl x:Class="TestResultBar.InfoControl" HorizontalAlignment="Right" VerticalAlignment="Stretch" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008">
-    <Button Name="Button" Background="Transparent" BorderThickness="0" Click="RunAllTests">
-        <StackPanel Name="Root" Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
-            <StackPanel Name="PassedPanel" Orientation="Horizontal" VerticalAlignment="Center" Margin="3,0">
-                <Image Source="Resources/PassedTest.png" />
-                <TextBlock Name="PassedTestsCount" Foreground="White" Margin="4, 0" VerticalAlignment="Center"></TextBlock>
+    <Grid Name="Root">
+        <Button Name="Button" Background="Transparent" BorderThickness="0" Click="RunAllTests">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="5,0">
+                <StackPanel Name="PassedPanel" Orientation="Horizontal" VerticalAlignment="Center" Margin="3,0">
+                    <Image Source="Resources/PassedTest.png" />
+                    <TextBlock Name="PassedTestsCount" Foreground="White" Margin="4, 0" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
+                <StackPanel Name="FailedPanel" Orientation="Horizontal" VerticalAlignment="Center" Margin="3,0">
+                    <Image Source="Resources/FailedTest.png" />
+                    <TextBlock Name="FailedTestsCount" Foreground="White" Margin="4, 2" VerticalAlignment="Center"></TextBlock>
+                </StackPanel>
             </StackPanel>
-            <StackPanel Name="FailedPanel" Orientation="Horizontal" VerticalAlignment="Center" Margin="3,0">
-                <Image Source="Resources/FailedTest.png" />
-                <TextBlock Name="FailedTestsCount" Foreground="White" Margin="4, 2" VerticalAlignment="Center"></TextBlock>
-            </StackPanel>
-            <Popup
-                Name="FailedTestsPopup"
-                PlacementTarget="{Binding ElementName=Root}"              
-                Placement="Top"
-            >
-                <Button Name="PopupButton" Background="Transparent" BorderThickness="0" Click="OpenTestExplorer">
-                    <Border BorderBrush="LightGray" BorderThickness="1" Background="White">
-                        <StackPanel Margin="4">
-                            <TextBlock FontWeight="Bold">Failing tests</TextBlock>
-                            <StackPanel Name="FailedTestsPopupContent"></StackPanel>
-                        </StackPanel>
-                    </Border>
-                </Button>
-            </Popup>
-        </StackPanel>
-    </Button>
+        </Button>
+        <Popup
+            Name="FailedTestsPopup"
+            PlacementTarget="{Binding ElementName=Root}"              
+            Placement="Top"
+        >
+            <Button Name="PopupButton" Background="Transparent" BorderThickness="0" Click="OpenTestExplorer">
+                <Border BorderBrush="LightGray" BorderThickness="1" Background="White">
+                    <StackPanel Margin="4">
+                        <TextBlock FontWeight="Bold">Failing tests</TextBlock>
+                        <StackPanel Name="FailedTestsPopupContent"></StackPanel>
+                    </StackPanel>
+                </Border>
+            </Button>
+        </Popup>
+    </Grid>
 </UserControl>

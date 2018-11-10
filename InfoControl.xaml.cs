@@ -1,3 +1,5 @@
+using EnvDTE;
+using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.TestWindow.Extensibility;
 using System;
 using System.Collections.Generic;
@@ -12,7 +14,13 @@ namespace TestResultBar
     [Export(typeof(InfoControl))]
 	public partial class InfoControl : UserControl
 	{
-		public InfoControl()
+        [Import]
+        private ITestsService TestsService;
+
+        [Import]
+        internal SVsServiceProvider ServiceProvider = null;
+
+        public InfoControl()
 		{
             InitializeComponent();
 		}
@@ -84,5 +92,17 @@ namespace TestResultBar
             }
         }
 
-	}
+        private void RunAllTests(object sender, System.Windows.RoutedEventArgs e)
+        {
+            DTE dte = (DTE)ServiceProvider.GetService(typeof(DTE));
+            dte.ExecuteCommand("TestExplorer.RunAllTests");
+        }
+
+        private void OpenTestExplorer(object sender, System.Windows.RoutedEventArgs e)
+        {
+            DTE dte = (DTE)ServiceProvider.GetService(typeof(DTE));
+            Window window = dte.Windows.Item("{E1B7D1F8-9B3C-49B1-8F4F-BFC63A88835D}");
+            window.Activate();
+        }
+    }
 }

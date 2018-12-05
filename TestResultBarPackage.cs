@@ -29,7 +29,7 @@ namespace TestResultBar
 	// This attribute is used to register the information needed to show this package
 	// in the Help/About dialog of Visual Studio.
 	[InstalledProductRegistration("#110", "#112", "1.0", IconResourceID = 400)]
-	[Guid(GuidList.guidStatusInfoPkgString)]
+	[Guid(GuidList.guidTestResultBarPkgString)]
 
 	[ProvideAutoLoad(UIContextGuids80.NoSolution)]
 	[ProvideAutoLoad(UIContextGuids80.SolutionExists)]
@@ -41,8 +41,10 @@ namespace TestResultBar
 	{
 		public InfoControl InfoControl;
 		private StatusBarInjector injector;
+        private DTE _dte;
+        private BuildEvents _buildEvents;
 
-		private OptionsPage optionsPage;
+        private OptionsPage optionsPage;
 
 		/// <summary>
 		/// Initialization of the package; this method is called right after the package is sited, so this is the place
@@ -54,11 +56,14 @@ namespace TestResultBar
 
 			base.Initialize();
 
-			DTE dte = (DTE)GetService(typeof(DTE));
-			DTEEvents eventsObj = dte.Events.DTEEvents;
+			_dte = (DTE)GetService(typeof(DTE));
+			DTEEvents eventsObj = _dte.Events.DTEEvents;
 			eventsObj.OnStartupComplete += InitExt;
 			eventsObj.OnBeginShutdown += ShutDown;
-		}
+
+            _buildEvents = _dte.Events.BuildEvents;
+            _buildEvents.OnBuildDone += RunAllTests;
+        }
 
 		private void InitExt()
 		{
@@ -77,8 +82,12 @@ namespace TestResultBar
 		{
 		}
 
-		private void UpdateInfoBar()
-		{
-		}
+        private void RunAllTests(vsBuildScope scope, vsBuildAction action)
+        {
+            if (action == vsBuildAction.vsBuildActionBuild)
+            {
+                InfoControl.RunAllTests();
+            }
+        }
 	}
 }

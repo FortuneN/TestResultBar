@@ -7,9 +7,10 @@ namespace TestResultBar
 {
 	static class GuidList
 	{
-		public const string guidStatusInfoPkgString = "72581eb6-4dcd-4b8f-9add-c4257d4fb9d7";
-		public const string guidStatusInfoCmdSetString = "fe879628-e88f-4564-abfe-babec6c33d3f";
+		public const string guidTestResultBarPkgString = "c48edd48-35b4-4f4c-8a73-c445898f41a9";
+		public const string guidTestResultBarCmdSetString = "fc15eb63-6a2c-48ce-b952-85daabeb316c";
 
-		public static readonly Guid guidStatusInfoCmdSet = new Guid(guidStatusInfoCmdSetString);
+		public static readonly Guid guidTestResultBarCmdSet = new Guid(guidTestResultBarCmdSetString);
+
 	};
 }

@@ -42,7 +42,6 @@ namespace TestResultBar
 		public InfoControl InfoControl;
 		private StatusBarInjector injector;
         private DTE _dte;
-        private BuildEvents _buildEvents;
 
         private OptionsPage optionsPage;
 
@@ -60,9 +59,6 @@ namespace TestResultBar
 			DTEEvents eventsObj = _dte.Events.DTEEvents;
 			eventsObj.OnStartupComplete += InitExt;
 			eventsObj.OnBeginShutdown += ShutDown;
-
-            _buildEvents = _dte.Events.BuildEvents;
-            _buildEvents.OnBuildDone += RunAllTests;
         }
 
 		private void InitExt()
@@ -81,13 +77,5 @@ namespace TestResultBar
 		private void ShutDown()
 		{
 		}
-
-        private void RunAllTests(vsBuildScope scope, vsBuildAction action)
-        {
-            if (action == vsBuildAction.vsBuildActionBuild)
-            {
-                InfoControl.RunAllTests();
-            }
-        }
 	}
 }

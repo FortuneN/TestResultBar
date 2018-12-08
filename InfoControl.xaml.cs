@@ -32,7 +32,7 @@ namespace TestResultBar
             });
         }
 
-        public void UpdateWithTestResult(IDisposableQuery<ITest> tests)
+        public void UpdateWithTestResult(IEnumerable<ITest> tests)
         {
             this.Dispatcher.BeginInvoke((Action)delegate {
                 ITest[] passedTests = tests.Where(t => t.State == TestState.Passed).ToArray();

@@ -13,8 +13,8 @@ using TestResultBar;
 [Export(typeof(TestRunnerListener))]
 internal class TestRunnerListener : ITestContainerDiscoverer
 {
-    [Import]
-    private ITestsService TestsService;
+    [Import(typeof(ITestsService))]
+    private ITestsService TestsService { get; set; }
 
     [Import(typeof(InfoControl))]
     public InfoControl InfoControl { get; set; }
@@ -50,7 +50,16 @@ internal class TestRunnerListener : ITestContainerDiscoverer
         }
         else if (e.State == TestOperationStates.TestExecutionFinished)
         {
-            IDisposableQuery<ITest> tests = await TestsService.GetTestsAsync();
+            IEnumerable<ITest> tests;
+            try
+            {
+                IDisposableQuery<ITest> obsoleteTests = await TestsService.GetTestsAsync();
+                tests = obsoleteTests.AsEnumerable();
+            }
+            catch
+            {
+                tests = await TestsService.GetTestsAsEnumerableAsync();
+            }
             InfoControl.UpdateWithTestResult(tests);
         }
 

@@ -22,4 +22,4 @@ TestResultBar is tested on the following versions of Visual Studio. It may of co
 
 ## Acknowledgement
 
-Based on [StatusInfo][https://github.com/lkytal/StatusInfo]
+Based on [StatusInfo](https://github.com/lkytal/StatusInfo)
